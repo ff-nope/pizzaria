@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Pizza - v1-cadastro</title>
+<script type="application/javascript">
+  var http_request = null;
+  var url = "http://localhost:7001/com.ff.pizza/api/v1/crud/cadastro";
+  var returnString = "";
+  var buf = "";
+ 
+function postJSON()
+{
+   get_http_request();
+   http_request.onreadystatechange = alertContents;
+   http_request.open("POST", url, true);
+   http_request.setRequestHeader("Content-type", "application/json");
+   http_request.send(prep(returnString));
+   cleanFields();
+}
+
+  
+// >>>>>>>>>>>>>>>>>>>>>>>>>               Plumbing
+function alertContents() 
+  {
+	  console.log("http_request.readyState " + http_request.readyState);
+	  console.log("http_request.status " + http_request.status);
+	  if (http_request.readyState === 4) {
+	    if (http_request.status === 200) 
+	    {
+	      var response = JSON.parse(http_request.responseText);
+	      //alert("HTTP_CODE: " + response[0].HTTP_CODE);
+	      //console.log("HTTP_CODE: " + response[0].HTTP_CODE);
+	      document.getElementById("fromServer").innerHTML = "MSG: " + response[0].MSG;
+	      alert("MSG: " + response[0].MSG);
+	      document.getElementById("fromServer").innerHTML = "Resposta do backend aqui.";
+	      //console.log("MSG: " + response[0].MSG);
+	     } 
+	    else 
+	    {
+	      alert('There was a problem with the request.');
+	    }
+	  }
+  }
+function get_http_request() 
+  {
+   http_request = new XMLHttpRequest();     
+   try{
+      // Opera 8.0+, Firefox, Chrome, Safari
+      http_request = new XMLHttpRequest();
+     }catch (e)
+     {
+      // Internet Explorer Browsers
+      try{
+         http_request = new ActiveXObject("Msxml2.XMLHTTP");
+           alert("Internet Explorer!");
+      }catch (e) 
+      {
+         try{
+            http_request = new ActiveXObject("Microsoft.XMLHTTP");
+         }catch (e)
+         {
+            // Something went wrong
+            alert("Your browser broke!");
+            return false;
+         }
+      }
+    }  
+  }
+  
+function prep(returnString)
+  {
+	    returnString = '{';
+		returnString += '"PI_NOME": ' +'\"' + document.getElementById("PI_NOME").value +'\"'  ;  
+		returnString += ',"PI_ING01": ' +'\"' + document.getElementById("PI_ING01").value +'\"'  ;  
+		returnString += ',"PI_ING02": ' +'\"' + document.getElementById("PI_ING02").value +'\"'  ;  
+		returnString += ',"PI_ING03": ' +'\"' + document.getElementById("PI_ING03").value +'\"'  ;  
+		returnString += ',"TEMPO_FORNO": ' +'\"' + document.getElementById("TEMPO_FORNO").value +'\"'  ;  		
+		returnString += '}';
+        alert("returnString : " + returnString);
+		return returnString;
+ }
+function cleanFields()
+{
+	   document.getElementById("PI_NOME").value = "";
+	   document.getElementById("PI_ING01").value = "";
+	   document.getElementById("PI_ING02").value = "";
+	   document.getElementById("PI_ING03").value = "";
+	   document.getElementById("TEMPO_FORNO").value = "";
+	   //document.getElementById("cadastro").reset();
+} 
+
+</script>
+</head>
+
+
+<body>
+	<h1>Pizza - v1-cadastro</h1>
+	<div id="cadastro" >
+		Pizza:
+		<Input id="PI_NOME" name="PI_NOME" type="text " size="20" />
+		<br /> 
+		Ingrediente 1:
+		<Input id="PI_ING01" name="PI_ING01" type="text " size="20" />
+		<br /> 
+		Ingrediente 2:
+		<Input id="PI_ING02" name="PI_ING02" type="text " size="20" />
+		<br /> 
+		Ingrediente 3:
+		<Input id="PI_ING03" name="PI_ING03" type="text " size="20" />
+		<br /> 
+		Forno:
+		<Input  id="TEMPO_FORNO" name="TEMPO_FORNO" type="text " size="3" />
+	</div>
+	<br />
+	<br />
+	<div class="botaoDeGravar">
+		<button type="button" onclick="postJSON()">Gravar dados</button>
+	</div>
+	<br/> <br/>
+	<hr />
+	<div id="fromServer">Status da gravacao</div>
+	
+	
+	
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Pizza - v1-update</title>
+<script src="js/jquery-1.11.2.js"></script>
+<script src="js/v1-update.js"></script>
+
+</head>
+
+
+<body>
+	<h1>Pizza - v1-update</h1>
+	<div id="pizza_nome" >
+		Pizza:
+		<Input id="PI_NOME" name="PI_NOME" type="text " size="20" />
+		<br /> 
+	</div>
+	<div id="pizza_campos" >
+		Ingrediente 1:
+		<Input id="PI_ING01" name="PI_ING01" type="text " size="20" />
+		<br /> 
+		Ingrediente 2:
+		<Input id="PI_ING02" name="PI_ING02" type="text " size="20" />
+		<br /> 
+		Ingrediente 3:
+		<Input id="PI_ING03" name="PI_ING03" type="text " size="20" />
+		<br /> 
+		Forno:
+		<Input  id="TEMPO_FORNO" name="TEMPO_FORNO" type="text " size="3" />
+	</div>
+	<br />
+	<br />
+	<div class="botaoContinua">
+		<button type="button" onclick="postJSON()">Continua</button>
+	</div>
+	<br/> <br/>
+	<hr />
+	<div id="fromServer">Status da gravacao</div>
+	
+	
+	
+</body>
+</html>
