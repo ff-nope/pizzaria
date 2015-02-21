@@ -32,7 +32,7 @@ function alertContents()
 	      //alert("HTTP_CODE: " + response[0].HTTP_CODE);
 	      //console.log("HTTP_CODE: " + response[0].HTTP_CODE);
 	      document.getElementById("fromServer").innerHTML = "MSG: " + response[0].MSG;
-	      alert("MSG: " + response[0].MSG);
+	      //alert("MSG: " + response[0].MSG);
 	      document.getElementById("fromServer").innerHTML = "Resposta do backend aqui.";
 	      //console.log("MSG: " + response[0].MSG);
 	     } 
@@ -77,7 +77,7 @@ function prep(returnString)
 		returnString += ',"PI_ING03": ' +'\"' + document.getElementById("PI_ING03").value +'\"'  ;  
 		returnString += ',"TEMPO_FORNO": ' +'\"' + document.getElementById("TEMPO_FORNO").value +'\"'  ;  		
 		returnString += '}';
-        alert("returnString : " + returnString);
+        //alert("returnString : " + returnString);
 		return returnString;
  }
 function cleanFields()

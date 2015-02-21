@@ -12,9 +12,11 @@
 <body>
 	<h1>Pizza - v1-update</h1>
 	<div id="pizza_nome" >
-		Pizza:
-		<Input id="PI_NOME" name="PI_NOME" type="text " size="20" />
-		<br /> 
+	   <form name="fpizza_nome"> 
+			Pizza:
+			<Input id="PI_NOME" name="PI_NOME" type="text " size="20" value= "Entre o nome da pizza" onFocus="limpa(PI_NOME)"/>
+			<br /> 
+		</form>
 	</div>
 	<div id="pizza_campos" >
 		Ingrediente 1:
@@ -31,8 +33,11 @@
 	</div>
 	<br />
 	<br />
-	<div class="botaoContinua">
-		<button type="button" onclick="postJSON()">Continua</button>
+	<div id="botaoContinua" class="botaoContinua">
+		<button type="button" onclick="pegaDados()">Continua</button>
+	</div>
+	<div id="botaoGrava" class="botaoGrava">
+		<button type="button" onclick="gravaDados()">Grava</button>
 	</div>
 	<br/> <br/>
 	<hr />

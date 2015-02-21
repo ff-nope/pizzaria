@@ -113,6 +113,7 @@ public class DbPizza {
 											+ " from PIZZARIA where UPPER(PI_NOME) = ? " ) ;
 			query.setString(1, PI_NOME);
 			ResultSet rs = query.executeQuery();
+			//System.out.println(">>>>>>>> retrieveFromPIZZARIA >>> ResultSet ");
 
 			json = converter.toJSONArray(rs);
 			
@@ -120,10 +121,12 @@ public class DbPizza {
 		}
 		catch (SQLException sqlError){
 			sqlError.printStackTrace();
+			System.out.println(">>>>>>>> retrieveFromPIZZARIA >>> SQLException ");
 			return json;
 		} 
 		catch (Exception e){
 			e.printStackTrace();
+			System.out.println(">>>>>>>> retrieveFromPIZZARIA >>> Exception ");
 			return json;
 		} 
 		finally {

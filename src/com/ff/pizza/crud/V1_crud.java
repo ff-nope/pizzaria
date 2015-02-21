@@ -37,7 +37,7 @@ public class V1_crud {
 			
 			if (http_code == 200) {
 				jsonObject.put("HTTP_CODE", "200");
-				jsonObject.put("MSG", "Item gravado com sucesso, Version 3");
+				jsonObject.put("MSG", "Item gravado com sucesso.");
 				returnString = jsonArray.put(jsonObject).toString();				
 			} else{
 				return Response.status(500).entity("Deu pau na gravacao.Http code: " + String.valueOf(http_code)).build();
@@ -104,31 +104,11 @@ public class V1_crud {
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	@Path("/retrieve")
 	@POST
 	@Consumes ({MediaType.APPLICATION_FORM_URLENCODED,MediaType.APPLICATION_JSON})
 	@Produces (MediaType.APPLICATION_JSON)
+	// pega os dados da pizza se o nome for passado como parametro
 	public Response retrievePizza(String incomingData) throws Exception {
 
 		String returnString = null;                    	// vai conter retorno deste metodo com os dados da pizza

@@ -3,58 +3,57 @@
  */
 
 var http_request = null;
-var url = "http://localhost:7001/com.ff.pizza/api/v1/crud/update";
+var url_retrieve = "http://localhost:7001/com.ff.pizza/api/v1/crud/retrieve";
+var url_update   = "http://localhost:7001/com.ff.pizza/api/v1/crud/update";
 var returnString = "";
 var buf = "";
+var pizza_found = false;
+var response  = "";
+var PI_PK = 0; // inicializando a variavel que vai hold a primary key
+
+//var PI_NOME = "";
   
   
 $(document).ready(function() {
 		
 	$("#pizza_campos").hide();
+	$("#botaoGrava").hide();
 	
 	
-	
-	
-	
-		//getInventory();
-//		$(document.body).on('click', ':button, .DELETE_BTN', function(e) {
-//		console.log(this);
-//		var $this = $(this)
-//			, PC_PARTS_PK = $this.val()
-//			, obj = {PC_PARTS_PK : PC_PARTS_PK}
-//			, $tr = $this.closest('tr')
-//			, PC_PARTS_MAKER = $tr.find('.CL_PC_PARTS_MAKER').text()
-//			, PC_PARTS_CODE = $tr.find('.CL_PC_PARTS_CODE').text();
-//		
-//		deleteInventory(obj, PC_PARTS_MAKER, PC_PARTS_CODE);
-//	});
 });  
- 
-function postJSON()
-{
-   get_http_request();
-   http_request.onreadystatechange = alertContents;
-   http_request.open("POST", url, true);
-   http_request.setRequestHeader("Content-type", "application/json");
-   http_request.send(prep(returnString));
-   cleanFields();
+
+
+function gravaDados(){
+	
+    get_http_request();
+	
+    http_request.onreadystatechange = alertContents_update;
+    http_request.open("POST", url_update, false);
+    http_request.setRequestHeader("Content-type", "application/json");
+    http_request.send(prep(returnString));
+    
+    $("#PI_NOME").attr("disabled", false);
+ 	$("#botaoContinua").show();
+	$("#pizza_campos").hide();
+	$("#botaoGrava").hide();
+	document.getElementById("PI_NOME").value = "Entre o nome da pizza";
+	$("#pizza_nome").focus();
+	
 }
 
-  
-// >>>>>>>>>>>>>>>>>>>>>>>>>               Plumbing
-function alertContents() 
-  {
+function alertContents_update()
+{
 	  console.log("http_request.readyState " + http_request.readyState);
 	  console.log("http_request.status " + http_request.status);
 	  if (http_request.readyState === 4) {
 	    if (http_request.status === 200) 
 	    {
-	      var response = JSON.parse(http_request.responseText);
+	      response = JSON.parse(http_request.responseText);
 	      //alert("HTTP_CODE: " + response[0].HTTP_CODE);
 	      //console.log("HTTP_CODE: " + response[0].HTTP_CODE);
-	      document.getElementById("fromServer").innerHTML = "MSG: " + response[0].MSG;
-	      alert("MSG: " + response[0].MSG);
-	      document.getElementById("fromServer").innerHTML = "Resposta do backend aqui.";
+	      //document.getElementById("fromServer").innerHTML = "MSG: " + response[0].MSG;
+	      //alert("MSG: " + response[0].MSG);
+	      //document.getElementById("fromServer").innerHTML = "Resposta do backend aqui.";
 	      //console.log("MSG: " + response[0].MSG);
 	     } 
 	    else 
@@ -62,45 +61,136 @@ function alertContents()
 	      alert('There was a problem with the request.');
 	    }
 	  }
-  }
+}
+
+function pegaDados(){
+	if (! processa_pizza_nome()){
+		alert ("Por favor digite o nome");
+		document.fpizza_nome.PI_NOME.focus();
+		return false;
+	}
+	
+	JPI_NOME = '{';
+	JPI_NOME += '"PI_NOME": ' +'\"' + document.getElementById("PI_NOME").value +'\"'  ;  
+	JPI_NOME += '}';
+    //alert("JPI_NOME : " + JPI_NOME);
+	
+    get_http_request();
+	
+    http_request.onreadystatechange = alertContents_retrieve;
+    http_request.open("POST", url_retrieve, false);
+    http_request.setRequestHeader("Content-type", "application/json");
+    http_request.send(JPI_NOME);
+	
+	
+	if (! pizza_found){
+		document.fpizza_nome.PI_NOME.focus();
+  		return false;
+	}
+	PI_PK = response[0].PI_PK;
+ 	document.getElementById("PI_ING01").value =  response[0].PI_ING01;
+ 	document.getElementById("PI_ING02").value =  response[0].PI_ING02;
+ 	document.getElementById("PI_ING03").value =  response[0].PI_ING03;
+ 	document.getElementById("TEMPO_FORNO").value =  response[0].TEMPO_FORNO;
+	
+ 	
+ 	$("#PI_NOME").attr("disabled", true);
+ 	$("#botaoContinua").hide();
+	$("#pizza_campos").show();
+	$("#botaoGrava").show();
+	$("#PI_ING01").focus();
+	
+	
+	//alert("fim so far");
+	
+}
+
+function alertContents_retrieve() 
+{
+	  console.log("http_request.readyState " + http_request.readyState);
+	  console.log("http_request.status " + http_request.status);
+	  if (http_request.readyState === 4) {
+	    if (http_request.status === 200) 
+	    {
+	      response = JSON.parse(http_request.responseText);
+	      pizza_found = true;
+	     } 
+	    else 
+	    {
+	    	alert ("Pizza " +  document.getElementById("PI_NOME").value  +" nao encontrada no banco de dados.");
+	    	pizza_found = false;
+	    }
+	  }
+}
+
+
+function processa_pizza_nome(){
+	var localNome = document.getElementById("PI_NOME").value;
+	var length_PI_NOME = localNome.length;
+	//alert("var1 : " + document.getElementById("PI_NOME").value);
+	//alert("length_PI_NOME : " + length_PI_NOME);
+	if (length_PI_NOME == 0){
+		alert("length de zero");
+		return false;
+	}
+	if (localNome == "Entre o nome da pizza"){
+		alert("foi direto no botao");
+		return false;
+	}
+	return true;
+	
+}
+
 function get_http_request() 
-  {
-   http_request = new XMLHttpRequest();     
-   try{
-      // Opera 8.0+, Firefox, Chrome, Safari
-      http_request = new XMLHttpRequest();
-     }catch (e)
-     {
-      // Internet Explorer Browsers
-      try{
-         http_request = new ActiveXObject("Msxml2.XMLHTTP");
-           alert("Internet Explorer!");
-      }catch (e) 
-      {
-         try{
-            http_request = new ActiveXObject("Microsoft.XMLHTTP");
-         }catch (e)
-         {
-            // Something went wrong
-            alert("Your browser broke!");
-            return false;
-         }
-      }
-    }  
-  }
-  
+{
+ http_request = new XMLHttpRequest();     
+ try{
+    // Opera 8.0+, Firefox, Chrome, Safari
+    http_request = new XMLHttpRequest();
+   }catch (e)
+   {
+    // Internet Explorer Browsers
+    try{
+       http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         alert("Internet Explorer!");
+    }catch (e) 
+    {
+       try{
+          http_request = new ActiveXObject("Microsoft.XMLHTTP");
+       }catch (e)
+       {
+          // Something went wrong
+          alert("Your browser broke!");
+          return false;
+       }
+    }
+  }  
+}
+
+
+function limpa(var1){
+	(var1).value = "";
+}
+
 function prep(returnString)
-  {
+{
 	    returnString = '{';
-		returnString += '"PI_NOME": ' +'\"' + document.getElementById("PI_NOME").value +'\"'  ;  
+	    returnString += '"PI_PK": ' +'\"' + PI_PK.toString() +'\"'  ;  
+		returnString += ',"PI_NOME": ' +'\"' + document.getElementById("PI_NOME").value +'\"'  ;  
 		returnString += ',"PI_ING01": ' +'\"' + document.getElementById("PI_ING01").value +'\"'  ;  
 		returnString += ',"PI_ING02": ' +'\"' + document.getElementById("PI_ING02").value +'\"'  ;  
 		returnString += ',"PI_ING03": ' +'\"' + document.getElementById("PI_ING03").value +'\"'  ;  
 		returnString += ',"TEMPO_FORNO": ' +'\"' + document.getElementById("TEMPO_FORNO").value +'\"'  ;  		
 		returnString += '}';
-        alert("returnString : " + returnString);
+		// alert("returnString : " + returnString);
 		return returnString;
- }
+}
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>               Plumbing
+
+
+
 function cleanFields()
 {
 	   document.getElementById("PI_NOME").value = "";
