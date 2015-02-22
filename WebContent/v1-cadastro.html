@@ -90,12 +90,24 @@ function cleanFields()
 	   //document.getElementById("cadastro").reset();
 } 
 
+ function changeImage()
+	{ 
+	document.getElementById("GabrielPizza").style.height="15%";
+	document.getElementById("GabrielPizza").style.width="15%";
+	}
+
 </script>
 </head>
 
 
-<body>
+<body onResize="changeImage();">
 	<h1>Pizza - v1-cadastro</h1>
+	
+	
+	
+	
+	<img id = "GabrielPizza" src = "image/GabrielPizza.jpg" height="100" width = "100"    />
+	
 	<div id="cadastro" >
 		Pizza:
 		<Input id="PI_NOME" name="PI_NOME" type="text " size="20" />
