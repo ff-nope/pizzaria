@@ -14,9 +14,7 @@
 	<div id="pizza_nome" >
 	   <form name="fpizza_nome"> 
 			Pizza:
-<!-- 			<Input id="PI_NOME" name="PI_NOME" type="text " size="20" value= "Entre o nome da pizza" onFocus="limpa(PI_NOME)"/> -->
-<!-- 				<Input id="PI_NOME" name="PI_NOME" type="text " size="20" value= "Entre o nome da pizza"  onkeypress="limpa(PI_NOME)"/> -->
-				<input type="text" id="PI_NOME" onkeydown="if (event.keyCode == 13) document.getElementById('botaoMutante').click()" size="20" value= "Entre o nome da pizza"  onkeypress="limpa(PI_NOME)"/>
+				<input type="text" id="PI_NOME"  size="20" value= "Entre o nome da pizza" />
 			<br /> 
 		</form>
 	</div>
@@ -31,20 +29,22 @@
 		<Input id="PI_ING03" name="PI_ING03" type="text " size="20" />
 		<br /> 
 		Forno:
-		<Input  id="TEMPO_FORNO" name="TEMPO_FORNO" type="text " size="3" />
+		<Input  id="TEMPO_FORNO"     name="TEMPO_FORNO" type="text " size="3" />
 	</div>
 	<br />
 	<br />
 	
 	<div id="botaoMutanteDiv" class="botaoMutante">
 		<input type="button" id="botaoMutante"  value = "willNeverSeeMe" onclick="filler()"></input>
-		
-		
+	</div>
+	
+	<div id="botaoDeleteDiv" class = "botaoDelete"   >
+	
 	</div>
 	
 	<br/> <br/>
 	<hr />
-	<div id="fromServer">Status da gravacao</div>
+	
 	
 	
 	
