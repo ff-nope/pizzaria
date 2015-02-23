@@ -3,42 +3,31 @@
  */
 
 var http_request = null;
-var url_retrieve = "http://localhost:7001/com.ff.pizza/api/v1/crud/retrieve";
-var url_update   = "http://localhost:7001/com.ff.pizza/api/v1/crud/update";
+var url_retrieve = "http://192.168.1.10:7001/com.ff.pizza/api/v1/crud/retrieve";
+var url_update   = "http://192.168.1.10:7001/com.ff.pizza/api/v1/crud/update";
 var returnString = "";
 var buf = "";
 var pizza_found = false;
 var response  = "";
 var PI_PK = 0; // inicializando a variavel que vai hold a primary key
 
-//var PI_NOME = "";
+
   
   
 $(document).ready(function() {
-		
-	$("#pizza_campos").hide();
-	$("#botaoGrava").hide();
-	
-	
+	inicializa();	
 });  
 
 
 function gravaDados(){
-	
-    get_http_request();
-	
-    http_request.onreadystatechange = alertContents_update;
+
+	get_http_request();
+	http_request.onreadystatechange = alertContents_update;
     http_request.open("POST", url_update, false);
     http_request.setRequestHeader("Content-type", "application/json");
     http_request.send(prep(returnString));
+    inicializa();
     
-    $("#PI_NOME").attr("disabled", false);
- 	$("#botaoContinua").show();
-	$("#pizza_campos").hide();
-	$("#botaoGrava").hide();
-	document.getElementById("PI_NOME").value = "Entre o nome da pizza";
-	$("#pizza_nome").focus();
-	
 }
 
 function alertContents_update()
@@ -49,12 +38,6 @@ function alertContents_update()
 	    if (http_request.status === 200) 
 	    {
 	      response = JSON.parse(http_request.responseText);
-	      //alert("HTTP_CODE: " + response[0].HTTP_CODE);
-	      //console.log("HTTP_CODE: " + response[0].HTTP_CODE);
-	      //document.getElementById("fromServer").innerHTML = "MSG: " + response[0].MSG;
-	      //alert("MSG: " + response[0].MSG);
-	      //document.getElementById("fromServer").innerHTML = "Resposta do backend aqui.";
-	      //console.log("MSG: " + response[0].MSG);
 	     } 
 	    else 
 	    {
@@ -93,15 +76,12 @@ function pegaDados(){
  	document.getElementById("PI_ING03").value =  response[0].PI_ING03;
  	document.getElementById("TEMPO_FORNO").value =  response[0].TEMPO_FORNO;
 	
- 	
  	$("#PI_NOME").attr("disabled", true);
- 	$("#botaoContinua").hide();
-	$("#pizza_campos").show();
-	$("#botaoGrava").show();
+ 	$("#pizza_campos").show();
+	
+	$("#botaoMutante").attr("onclick", "gravaDados()");
+	$("#botaoMutante").val("Grava");
 	$("#PI_ING01").focus();
-	
-	
-	//alert("fim so far");
 	
 }
 
@@ -127,8 +107,6 @@ function alertContents_retrieve()
 function processa_pizza_nome(){
 	var localNome = document.getElementById("PI_NOME").value;
 	var length_PI_NOME = localNome.length;
-	//alert("var1 : " + document.getElementById("PI_NOME").value);
-	//alert("length_PI_NOME : " + length_PI_NOME);
 	if (length_PI_NOME == 0){
 		alert("length de zero");
 		return false;
@@ -169,7 +147,16 @@ function get_http_request()
 
 
 function limpa(var1){
-	(var1).value = "";
+	//console.log("var1.value.length :" + var1.value.length);
+	if (var1.value == "Entre o nome da pizza"){
+		(var1).value = "";
+		//alert("passei na limpa");
+		return false;
+	}
+	
+	
+	
+	
 }
 
 function prep(returnString)
@@ -184,6 +171,16 @@ function prep(returnString)
 		returnString += '}';
 		// alert("returnString : " + returnString);
 		return returnString;
+}
+
+function inicializa(){
+	$("#PI_NOME").attr("disabled", false);
+	$("#pizza_campos").hide();
+	$("#botaoMutante").attr("onclick", "pegaDados()");
+	$("#botaoMutante").val("Continua");
+	document.getElementById("PI_NOME").value = "Entre o nome da pizza";
+	$("#PI_NOME").focus();
+
 }
 
 
