@@ -17,7 +17,8 @@ public class V1_status {
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	public String returnTest() {
-		return "<p>Hello World!</p><p>Aqui fala o servidor backend.</p>";
+		return "<p>This is the backend server.</p> <p> Please see <a href='http://192.168.1.10:7001/com.ff.pizza/readme.html'> the readme file  </a> for usage details    ";
+
 	}
 
 	@Path("/database")

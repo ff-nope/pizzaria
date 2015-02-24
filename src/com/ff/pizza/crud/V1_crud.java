@@ -6,11 +6,19 @@ import javax.ws.rs.core.*;
 
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
+
 import com.ff.pizza.dao.*;
 
 
 @Path("/v1/crud")
 public class V1_crud {
+	
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String returnTest() {
+		return "<p>This is the backend server.</p> <p> Please see <a href='http://192.168.1.10:7001/com.ff.pizza/readme.html'> the readme file  </a> for usage details    ";
+	}
+
 
 	@Path("/cadastro")
 	@POST
@@ -120,7 +128,7 @@ public class V1_crud {
 		String PI_NOME = jsonObj.optString("PI_NOME");
 		
 		try {
-			//System.out.println("\n" + ">>>> retrievePizza >>>>  PI_NOME : " + PI_NOME);
+			System.out.println("\n" + ">>>> retrievePizza >>>>  PI_NOME : " + incomingData);
 			
 														// chamada ao dao, passando o nome da pizza em string. 
 														// O dao devolve o resto da row em JSONArray
