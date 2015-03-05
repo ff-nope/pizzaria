@@ -216,26 +216,6 @@ public class DbPizza {
 	
 	
 
-	// public static Connection MySQLPcPartsConnection() {
-	// Connection conn = null;
-	// String url = "jdbc:mysql://192.168.1.3:3306/";
-	// String database = "xe";
-	// String username = "ffeijo";
-	// String password = "deoclecio";
-	//
-	//
-	// try{
-	// conn = DriverManager.getConnection(url+database,username,password);
-	// System.out.println("\nAbri com sucesso o banco de dados.\n");
-	// return conn;
-	// }
-	// catch (Exception e){
-	// System.out.println("\nDeu pau tentando abrir o banco de dados.\n");
-	// e.printStackTrace();
-	// }
-	// return conn;
-	// }
-
 	
 	
 	
